@@ -8,7 +8,7 @@ export async function POST(req: NextRequest) {
     const reqBody = await req.json();
     const { email, password } = reqBody;
     if (!email || !password) {
-      throw new Error("Please provide the credencials");
+      return NextResponse.json("Please provide the credencials");
     }
     try {
       const user = await db.user.findUnique({
@@ -21,12 +21,12 @@ export async function POST(req: NextRequest) {
           message: "User account doesnot exist.",
         });
       }
-      const isPasswordcorrect = bcrypt.compare(password, user.password);
+      const isPasswordcorrect = await bcrypt.compare(password, user.password);
       if (!isPasswordcorrect) {
-        throw new Error("Password is incorrect.");
+        return NextResponse.json("Password is incorrect.");
       }
       if (!process.env.JWT_SECRET) {
-        throw new Error("JWT secret is not available.");
+        return NextResponse.json("JWT secret is not available.");
       }
       const token = jwt.sign(user.id, process.env.JWT_SECRET);
       const response = NextResponse.json({
@@ -35,7 +35,7 @@ export async function POST(req: NextRequest) {
       response.cookies.set("BearerToken", token);
       return response;
     } catch (error) {
-      throw new Error("problem in finding user in db.");
+      return NextResponse.json("problem in finding user in db.");
     }
   } catch (error) {
     console.log(error);
