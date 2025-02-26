@@ -1,14 +1,11 @@
-import db from "@/app/lib/prisma";
 import { User } from "@prisma/client";
-import { cookies } from "next/headers";
 import { create } from "zustand";
 
 interface UserAuth {
   user: User | null;
   login(email: string, password: string): Promise<any>;
   signup(username: string, email: string, password: string): Promise<any>;
-  logout(): Promise<void>;
-  setuserbyid(id: string): Promise<void>;
+  setuserbyid(user: User): void;
 }
 
 export const useUser = create<UserAuth>()((set) => ({
@@ -39,21 +36,8 @@ export const useUser = create<UserAuth>()((set) => ({
       return error;
     }
   },
-  async logout() {
-    const cookieStore = await cookies();
-    cookieStore.delete("BearerToken");
-    set({ user: null });
-  },
-  async setuserbyid(id) {
-    try {
-      const User = await db.user.findUnique({
-        where: {
-          id,
-        },
-      });
-      set({ user: User });
-    } catch (error) {
-      console.log(error);
-    }
+
+  setuserbyid(user: User) {
+    set({ user });
   },
 }));
