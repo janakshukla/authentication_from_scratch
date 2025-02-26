@@ -23,6 +23,7 @@ const page = () => {
     const handleclick=async()=>{
        const res= await login(email,password)
        console.log(res.json())
+
     }
   return (
     <div className="h-screen flex justify-center items-center bg-slate-900" >

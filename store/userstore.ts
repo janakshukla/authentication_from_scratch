@@ -5,7 +5,7 @@ interface UserAuth {
   user: User | null;
   login(email: string, password: string): Promise<any>;
   signup(username: string, email: string, password: string): Promise<any>;
-  setuserbyid(user: User): void;
+  setUserById: (id: string) => Promise<void>;
 }
 
 export const useUser = create<UserAuth>()((set) => ({
@@ -37,7 +37,16 @@ export const useUser = create<UserAuth>()((set) => ({
     }
   },
 
-  setuserbyid(user: User) {
-    set({ user });
+  async setUserById(id) {
+    try {
+      const response = await fetch(`/api/user/${id}`);
+      if (!response.ok) {
+        throw new Error("User not found");
+      }
+      const user = await response.json();
+      set({ user });
+    } catch (error) {
+      console.error(error);
+    }
   },
 }));

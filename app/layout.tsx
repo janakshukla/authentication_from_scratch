@@ -1,7 +1,8 @@
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
-import getsetuser from "./server/getuser";
+
+
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -18,12 +19,12 @@ export const metadata: Metadata = {
   description: "an next app for authentication and autherization from scratch",
 };
 
-export default function RootLayout({
+export default  function RootLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
 }>) {
-  getsetuser();
+
   return (
     <html lang="en">
       <body
