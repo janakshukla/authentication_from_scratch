@@ -14,16 +14,19 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import Link from "next/link";
 import { useUser } from "@/store/userstore";
+import { redirect } from "next/navigation";
+
 
 
 const page = () => {
+ 
     const [email, setemail] = useState("")
     const [password, setpassword] = useState("")
     const login = useUser((state)=>state.login)
     const handleclick=async()=>{
        const res= await login(email,password)
-       console.log(res.json())
-
+       console.log(res)
+      redirect("/")
     }
   return (
     <div className="h-screen flex justify-center items-center bg-slate-900" >

@@ -1,7 +1,7 @@
 import * as jwt from "jsonwebtoken";
 import db from "@/app/lib/prisma";
 import bcrypt from "bcryptjs";
-import { NextRequest, NextResponse } from "next/server";
+import { NextRequest, NextResponse, userAgent } from "next/server";
 
 export async function POST(req: NextRequest) {
   try {
@@ -30,6 +30,7 @@ export async function POST(req: NextRequest) {
       const token = jwt.sign(user.id, process.env.JWT_SECRET);
       const response = NextResponse.json({
         message: "user created sucessfully",
+        user
       });
       response.cookies.set("BearerToken", token);
 

@@ -17,7 +17,9 @@ export const useUser = create<UserAuth>()((set) => ({
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ email, password }),
       });
-      return response;
+      const data = await response.json();
+      set({ user: data.user });
+      return data;
     } catch (error) {
       console.log(error);
       return error;
@@ -30,7 +32,10 @@ export const useUser = create<UserAuth>()((set) => ({
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ email, password, username }),
       });
-      return response;
+
+      const data = await response.json();
+      set({ user: data.user });
+      return data;
     } catch (error) {
       console.log(error);
       return error;
@@ -39,7 +44,9 @@ export const useUser = create<UserAuth>()((set) => ({
 
   async setUserById(id) {
     try {
-      const response = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/api/user/${id}`);
+      const response = await fetch(
+        `${process.env.NEXT_PUBLIC_BASE_URL}/api/user/${id}`
+      );
 
       if (!response.ok) {
         throw new Error("User not found");

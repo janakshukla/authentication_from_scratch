@@ -31,6 +31,7 @@ export async function POST(req: NextRequest) {
       const token = jwt.sign({ id: user.id }, process.env.JWT_SECRET);
       const response = NextResponse.json({
         message: "user logined successfully.",
+        user
       });
       response.cookies.set("BearerToken", token);
       return response;
