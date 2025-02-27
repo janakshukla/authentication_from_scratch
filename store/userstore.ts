@@ -39,7 +39,8 @@ export const useUser = create<UserAuth>()((set) => ({
 
   async setUserById(id) {
     try {
-      const response = await fetch(`/api/user/${id}`);
+      const response = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/api/user/${id}`);
+
       if (!response.ok) {
         throw new Error("User not found");
       }

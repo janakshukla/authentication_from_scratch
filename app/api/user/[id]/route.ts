@@ -1,25 +1,23 @@
-import { NextApiRequest, NextApiResponse } from "next";
 import db from "@/app/lib/prisma";
+import { NextRequest, NextResponse } from "next/server";
 
-export default async function handler(req: NextApiRequest, res: NextApiResponse) {
-  const { id } = req.query;
+export async function GET(req: NextRequest, context: { params: { id: string } }) {
+  const { id } = context.params; // ✅ Use `context.params` instead of directly destructuring `params`
 
-  if (typeof id !== "string") {
-    return res.status(400).json({ message: "Invalid user ID" });
+  if (!id) {
+    return NextResponse.json({ message: "Invalid user ID" }, { status: 400 });
   }
 
   try {
-    const user = await db.user.findUnique({
-      where: { id },
-    });
+    const user = await db.user.findUnique({ where: { id } });
 
     if (!user) {
-      return res.status(404).json({ message: "User not found" });
+      return NextResponse.json({ message: "User not found" }, { status: 404 });
     }
 
-    res.status(200).json(user);
+    return NextResponse.json(user, { status: 200 });
   } catch (error) {
     console.error(error);
-    res.status(500).json({ message: "Internal server error" });
+    return NextResponse.json({ message: "Internal server error" }, { status: 500 });
   }
 }

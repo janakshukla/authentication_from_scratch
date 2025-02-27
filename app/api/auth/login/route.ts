@@ -28,7 +28,7 @@ export async function POST(req: NextRequest) {
       if (!process.env.JWT_SECRET) {
         return NextResponse.json("JWT secret is not available.");
       }
-      const token = jwt.sign(user.id, process.env.JWT_SECRET);
+      const token = jwt.sign({ id: user.id }, process.env.JWT_SECRET);
       const response = NextResponse.json({
         message: "user logined successfully.",
       });
