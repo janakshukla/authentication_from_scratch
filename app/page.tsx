@@ -11,6 +11,7 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 
 import { useUser } from "@/store/userstore";
+import Link from "next/link";
 
 
 export default function Home() {
@@ -27,20 +28,12 @@ export default function Home() {
           {user ? (
             <p>You are logged in as {user.username}</p>
           ) : (
-            <p>Please log in to access your account.</p>
+            <p>Please log in to access your account.
+              <Link href={'/login'}>LOgin</Link>
+            </p>
           )}
         </CardContent>
-        <CardFooter>
-          {!user && (
-            <>
-              <Label>Email</Label>
-              <Input type="email" placeholder="Enter your email" />
-              <Label>Password</Label>
-              <Input type="password" placeholder="Enter your password" />
-              <Button>Login</Button>
-            </>
-          )}
-        </CardFooter>
+       
       </Card>
     </div>
   );
