@@ -23,7 +23,8 @@ export default function signup() {
   const handleclick = async () => {
     const res = await signup(username, email, password);
 
-    console.log(res.json());
+    console.log(res);
+    redirect("/")
   };
   return (
     <div className="h-screen flex justify-center items-center bg-slate-900">
